@@ -1,3 +1,5 @@
+TESTING=third_party/car/hw/testing
+
 alias snap='cd ~/Downloads/snapshot/snapshot3'
 alias car='s /usr/local/google/home/kschiller/code/car'
 
@@ -20,9 +22,16 @@ alias scar='subl /usr/local/google/home/kschiller/code/main/google3/third_party/
 alias apy='~/anaconda2/bin/python'
 alias apip='~/anaconda2/bin/pip'
 
+# node
+alias nis='npm install --save'
+alias nisd='npm install --save-dev'
+alias ns='npm start'
+alias nig='sudo npm install -g'
+
 # desk access
 alias desk='ssh -t desk "tmux new -s main -A"'
 alias auth='ssh -O exit desk; auth-refresh'
 alias remo='sudo systemsetup -setremotelogin on'
 alias authall='cd; auth; remount'
 alias aa='authall'
+alias a='authall'

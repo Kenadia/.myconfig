@@ -6,8 +6,9 @@ alias uuuup='cd ../../../..'
 alias mni='meteor npm install --save'
 alias mnu='meteor npm uninstall --save'
 alias ni='npm install'
+alias n='npm run'
 alias ipy='ipython'
-alias py='python'
+alias py='python -B'
 alias pi='pip install'
 alias pir='pip install -r requirements.txt'
 alias pfr='pip freeze > requirements.txt'
@@ -61,8 +62,11 @@ alias gd="git diff --minimal -w HEAD | cdiff -s -w 100"
   # log
 alias gla='git log --pretty=oneline HEAD^..HEAD | cut -c 1-7'
 alias glo="git log --oneline --format=\"%h %<(50,trunc)%s\" | less"
+  # merge
+alias gma='git merge --abort'
   # pull
 alias gl='git pull'
+alias glr='git pull --rebase'
   # push
 alias gp='git push'
 alias gpf='git push -f'
@@ -82,6 +86,7 @@ alias guuh="git reset HEAD^ --hard"
 alias gsps="git show --pretty=short --show-signature"
   # stash
 alias gh="git stash"
+alias ghd="git stash drop"
 alias ghp="git stash pop"
   # status
 alias gs='git status'
