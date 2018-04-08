@@ -1,3 +1,16 @@
+# path
+export PATH=$HOME/homebrew/bin:$PATH
+export PATH=$HOME/bin:$PATH
+export PATH=node_modules/.bin:$PATH
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
+# prompt
+source ~/.myconfig/git-prompt.sh
+HOSTNAME=`hostname`
+HOSTNAME="${HOSTNAME%%\.*}"
+export PS1="\[\e[32m\]$HOSTNAME \[\e[33m\]${debian_chroot:+($debian_chroot)}\W\[\e[31m\]\`__git_ps1\`\[\e[m\] \$ "
+
 # shared aliases
 alias up='cd ..'
 alias uup='cd ../..'
@@ -95,9 +108,3 @@ alias ghd="git stash drop"
 alias ghp="git stash pop"
   # status
 alias gs='git status'
-
-# prompt
-source ~/.myconfig/git-prompt.sh
-HOSTNAME=`hostname`
-HOSTNAME="${HOSTNAME%%\.*}"
-export PS1="\[\e[32m\]$HOSTNAME \[\e[33m\]${debian_chroot:+($debian_chroot)}\W\[\e[31m\]\`__git_ps1\`\[\e[m\] \$ "
