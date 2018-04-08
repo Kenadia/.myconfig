@@ -48,6 +48,8 @@ alias gcom="git checkout master"
 alias gcp="git cherry-pick"
 alias gcpa="git cherry-pick --abort"
 alias gcpc="git cherry-pick --continue"
+  # clone
+alias gn='git clone'
   # commit
 alias gc="git commit -v"
 alias gca="git commit -v -a"
@@ -59,6 +61,8 @@ alias gcaa="git commit -v -a --amend"
 alias gcaan="git commit -v -a --amend --no-edit"
   # diff
 alias gd="git diff --minimal -w HEAD | cdiff -s -w 100"
+  # fetch
+alias gfa='git fetch --all'
   # log
 alias gla='git log --pretty=oneline HEAD^..HEAD | cut -c 1-7'
 alias glo="git log --oneline --format=\"%h %<(50,trunc)%s\" | less"
@@ -75,6 +79,7 @@ alias gra='git rebase --abort'
 alias grc="git rebase --continue"
 alias gri="git rebase -i"
 alias grim="git rebase -i master"
+alias grom='git rebase origin/master'
 alias grm="git rebase master"
 alias gru="git fetch upstream; git rebase upstream/master"
   # reset
