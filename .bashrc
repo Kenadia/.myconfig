@@ -2,6 +2,8 @@
 export PATH=$HOME/homebrew/bin:$PATH
 export PATH=$HOME/bin:$PATH
 export PATH=$PATH:node_modules/.bin
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
 
 # If not running interactively, skip most setup.
 [ -z "$PS1" ] && return
