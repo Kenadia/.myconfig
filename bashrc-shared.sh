@@ -77,37 +77,37 @@ alias ga='git add'
 alias gb='git branch'
 alias gbd='git branch -D'
   # commit
-alias gc="git commit -v"
-alias gca="git commit -v -a"
-alias gcm="git commit -v -m"
-alias gcam="git commit -v -a -m"
-alias gcamw="git commit -v -a -m \"wip\""
-alias gcan="git commit -v --amend --no-edit"
-alias gcaa="git commit -v -a --amend"
-alias gcaan="git commit -v -a --amend --no-edit"
+alias gc='git commit -v'
+alias gca='git commit -v -a'
+alias gcm='git commit -v -m'
+alias gcam='git commit -v -a -m'
+alias gcamw='git commit -v -a -m \"wip\"'
+alias gcan='git commit -v --amend --no-edit'
+alias gcaa='git commit -v -a --amend'
+alias gcaan='git commit -v -a --amend --no-edit'
   # checkout
 alias gco='git checkout'
-alias gcob="git checkout -b"
-alias gcom="git checkout master"
+alias gcob='git checkout -b'
+alias gcom='git checkout master'
   # cherrypick
-alias gcp="git cherry-pick"
-alias gcpa="git cherry-pick --abort"
-alias gcpc="git cherry-pick --continue"
+alias gcp='git cherry-pick'
+alias gcpa='git cherry-pick --abort'
+alias gcpc='git cherry-pick --continue'
   # diff
-alias gd="git diff --minimal -w HEAD | cdiff -s -w 100"
+alias gd='git diff --minimal -w HEAD | cdiff -s -w 100'
   # fetch
 alias gfa='git fetch --all'
 alias gfm='git fetch origin master'
   # stash
-alias gh="git stash"
-alias ghd="git stash drop"
-alias ghp="git stash pop"
+alias gh='git stash'
+alias ghd='git stash drop'
+alias ghp='git stash pop'
   # pull
 alias gl='git pull'
 alias glr='git pull --rebase'
   # log
 alias gla='git log --pretty=oneline HEAD^..HEAD | cut -c 1-7'
-alias glo="git log --oneline --format=\"%h %<(50,trunc)%s\" | less"
+alias glo='git log --oneline --format=\"%h %<(50,trunc)%s\" | less'
   # merge
 alias gma='git merge --abort'
   # clone
@@ -117,19 +117,19 @@ alias gp='git push'
 alias gpf='git push -f'
   # rebase
 alias gra='git rebase --abort'
-alias grc="git rebase --continue"
-alias gri="git rebase -i"
-alias grim="git rebase -i master"
+alias grc='git rebase --continue'
+alias gri='git rebase -i'
+alias grim='git rebase -i master'
 alias grom='git rebase origin/master'
-alias grm="git rebase master"
+alias grm='git rebase master'
 alias grom='git rebase origin/master'
-alias gru="git fetch upstream; git rebase upstream/master"
+alias gru='git fetch upstream; git rebase upstream/master'
   # status
 alias gs='git status'
   # show
-alias gsps="git show --pretty=short --show-signature"
+alias gsps='git show --pretty=short --show-signature'
   # reset
-alias gu="git reset HEAD"
-alias guh="git reset HEAD --hard"
-alias guu="git reset HEAD^"
-alias guuh="git reset HEAD^ --hard"
+alias gu='git reset HEAD'
+alias guh='git reset HEAD --hard'
+alias guu='git reset HEAD^'
+alias guuh='git reset HEAD^ --hard'
