@@ -1,3 +1,12 @@
+# Only run in env 'google'.
+if [ "$MYCONFIG_ENV" != "google" ]; then
+  return
+fi
+echo "Loading google config."
+
+# Skip if not running interactively.
+[ -z "$PS1" ] && return
+
 # current project
 alias cc='cd ~/code/project1/farz'
 

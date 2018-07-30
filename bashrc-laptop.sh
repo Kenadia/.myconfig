@@ -1,4 +1,11 @@
-TESTING=third_party/car/hw/testing
+# Only run in env 'laptop'.
+if [ "$MYCONFIG_ENV" != "laptop" ]; then
+  return
+fi
+echo "Loading laptop config."
+
+# Skip if not running interactively.
+[ -z "$PS1" ] && return
 
 alias snap='cd ~/Downloads/snapshot/snapshot3'
 alias car='s /usr/local/google/home/kschiller/code/car'

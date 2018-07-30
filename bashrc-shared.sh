@@ -1,3 +1,8 @@
+echo "Loading shared config."
+
+# Skip if not running interactively.
+[ -z "$PS1" ] && return
+
 # path
 export PATH=$HOME/homebrew/bin:$PATH
 export PATH=$HOME/bin:$PATH
@@ -11,7 +16,7 @@ HOSTNAME=`hostname`
 HOSTNAME="${HOSTNAME%%\.*}"
 export PS1="\[\e[32m\]$HOSTNAME \[\e[33m\]${debian_chroot:+($debian_chroot)}\W\[\e[31m\]\`__git_ps1\`\[\e[m\] \$ "
 
-# shared aliases
+# basic aliases
 alias up='cd ..'
 alias uup='cd ../..'
 alias uuup='cd ../../..'
