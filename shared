@@ -19,7 +19,6 @@ alias uuuup='cd ../../../..'
 alias mni='meteor npm install --save'
 alias mnu='meteor npm uninstall --save'
 alias ni='npm install'
-alias n='npm run'
 alias ipy='ipython'
 alias py='python -B'
 alias pi='pip install'
@@ -33,10 +32,22 @@ alias co='vi ~/.myconfig/shared'
 alias cr='. ~/.bashrc'
 alias c='clear'
 alias vm='virtualenv venv'
+alias vm3='virtualenv venv3 -p python3'
 alias va='source venv/bin/activate'
+alias va3='source venv3/bin/activate'
 alias vd='deactivate'
 alias wh='type'
 alias ww='echo "`whoami`@`hostname`"'
+
+# node
+alias nb='npm run build'
+alias ni='npm install'
+alias nig='sudo npm install --g'
+alias nis='npm install --save'
+alias nisd='npm install --save-dev'
+alias nr='npm run'
+alias ns='npm run start'
+alias nt='npm run test'
 
 # tmux
 alias tx='tmux'
@@ -76,6 +87,7 @@ alias gcaan="git commit -v -a --amend --no-edit"
 alias gd="git diff --minimal -w HEAD | cdiff -s -w 100"
   # fetch
 alias gfa='git fetch --all'
+alias gfm='git fetch origin master'
   # log
 alias gla='git log --pretty=oneline HEAD^..HEAD | cut -c 1-7'
 alias glo="git log --oneline --format=\"%h %<(50,trunc)%s\" | less"
@@ -94,6 +106,7 @@ alias gri="git rebase -i"
 alias grim="git rebase -i master"
 alias grom='git rebase origin/master'
 alias grm="git rebase master"
+alias grom='git rebase origin/master'
 alias gru="git fetch upstream; git rebase upstream/master"
   # reset
 alias gu="git reset HEAD"

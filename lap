@@ -22,12 +22,6 @@ alias scar='subl /usr/local/google/home/kschiller/code/main/google3/third_party/
 alias apy='~/anaconda2/bin/python'
 alias apip='~/anaconda2/bin/pip'
 
-# node
-alias nis='npm install --save'
-alias nisd='npm install --save-dev'
-alias ns='npm start'
-alias nig='sudo npm install -g'
-
 # desk access
 alias desk='ssh -t desk "tmux new -s main -A"'
 alias auth='ssh -O exit desk; auth-refresh'
