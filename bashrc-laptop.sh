@@ -7,32 +7,17 @@ echo "Loading laptop config."
 # Skip if not running interactively.
 [ -z "$PS1" ] && return
 
-alias snap='cd ~/Downloads/snapshot/snapshot3'
-alias car='s /usr/local/google/home/kschiller/code/car'
+# config
+alias coo='vi ~/.myconfig/bashrc-laptop.sh'
 
-# lap aliases
-alias coo='vi ~/.myconfig/lap'
-alias cpull='scp desk:~/.myconfig/shared ~/.myconfig/shared'
-alias cpush='scp ~/.myconfig/shared desk:~/.myconfig/shared'
-alias tpush='scp ~/.tmux* desk:~'
-alias vpush='scp ~/.vimrc desk:~'
-alias gd='g diff --color=always | less -R'
-alias la='ls -A'
-alias l='ls -CF'
-alias ll='ls -alF'
-alias laputa='sudo sshfs -o allow_other,defer_permissions,volname=laputa,IdentityFile=/users/kschiller/.ssh/id_rsa files@schiller.io:/home/files /laputa; cd /laputa'
-alias ulaputa='sudo umount -f /laputa'
-alias b='cd -'
-alias s='subl'
-alias o='open'
-alias scar='subl /usr/local/google/home/kschiller/code/main/google3/third_party/car/'
-alias apy='~/anaconda2/bin/python'
-alias apip='~/anaconda2/bin/pip'
-
-# desk access
+# desk
 alias desk='ssh -t desk "tmux new -s main -A"'
 alias auth='ssh -O exit desk; auth-refresh'
 alias remo='sudo systemsetup -setremotelogin on'
 alias authall='cd; auth; remount'
 alias aa='authall'
 alias a='authall'
+
+# laputa
+alias laputa='sudo sshfs -o allow_other,defer_permissions,volname=laputa,IdentityFile=/users/kschiller/.ssh/id_rsa files@schiller.io:/home/files /laputa; cd /laputa'
+alias ulaputa='sudo umount -f /laputa'

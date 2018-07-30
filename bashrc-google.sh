@@ -7,22 +7,22 @@ echo "Loading google config."
 # Skip if not running interactively.
 [ -z "$PS1" ] && return
 
-# current project
-alias cc='cd ~/code/project1/farz'
+# config
+alias coo='vi ~/.myconfig/bashrc-google.sh'
 
 # desk aliases
-alias sai='sudo apt-get install'
-alias wh='type'
 alias addremotekey='sudo cryptsetup luksAddKey --key-slot 4 -q -y /dev/sda5'
+alias gd="git diff --minimal -w HEAD | cdiff -s -w 100"
+alias pa='prodaccess'
 alias removeremotekey='sudo cryptsetup luksRemoveKey --key-slot 4 -q /dev/sda5'
-alias cod='vi ~/.myconfig/desk'
+alias sai='sudo apt-get install'
 
-# blaze aliases
+# blaze
 alias zb='blaze build'
 alias zc='blaze coverage'
 alias zr='blaze run'
 
-# git5 aliases
+# git5
 g5newex() {
   git5 start $1 "experimental/users/kschiller/$2" --import-empty
   cd "google3/experimental/users/kschiller/$2"
