@@ -10,6 +10,9 @@ echo "Loading laptop config."
 # config
 alias coo='vi ~/.myconfig/bashrc-laptop.sh'
 
+# overrides
+alias gd='git diff --color=always | less -R'
+
 # desk
 alias desk='ssh -t desk "tmux new -s main -A"'
 alias auth='ssh -O exit desk; auth-refresh'

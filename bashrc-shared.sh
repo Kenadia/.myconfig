@@ -94,7 +94,7 @@ alias gcp="git cherry-pick"
 alias gcpa="git cherry-pick --abort"
 alias gcpc="git cherry-pick --continue"
   # diff
-alias gd='git diff --color=always | less -R'
+alias gd="git diff --minimal -w HEAD | cdiff -s -w 100"
   # fetch
 alias gfa='git fetch --all'
 alias gfm='git fetch origin master'
