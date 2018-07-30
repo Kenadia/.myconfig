@@ -104,3 +104,4 @@ inoremap <C-e> <C-o>$
 
 " align equal signs
 " noremap <space>= :Tabularize /^[^=]*\zs=<cr>
+source ~/.myconfig/vimrc.vim
