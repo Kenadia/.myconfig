@@ -3,10 +3,10 @@
 ## Installation
 
 ```
-MYCONFIG_ENV=cloud
+MYCONFIG_ENV=cloud  # E.g. one of 'cloud', 'google', 'laptop'.
 cd ~
 git clone https://github.com/Kenadia/.myconfig.git
-echo "export MYCONFIG_ENV=$MYCONFIG_ENV" >> .bashrc  # E.g. one of 'cloud', 'google', 'laptop'.
+echo "export MYCONFIG_ENV=$MYCONFIG_ENV" >> .bashrc
 echo ". ~/.myconfig/bashrc-main.sh" >> .bashrc
 echo "source ~/.myconfig/vimrc.vim" >> .vimrc
 echo "source-file ~/.myconfig/tmux.conf" >> .tmux.conf
