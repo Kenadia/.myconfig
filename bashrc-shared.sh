@@ -4,19 +4,25 @@ echo "Loading shared config."
 [ -z "$PS1" ] && return
 
 export PGCONNECT_TIMEOUT=3
+export GEM_HOME="$HOME/.gem"
 
 # misc
 alias beep='osascript -e beep; osascript -e beep'
 alias tscw='tsc --watch'
+alias authors='git log --pretty=format:"%an <%ae>" | sort | uniq'
 
 # path
 export PATH=$HOME/homebrew/bin:$PATH
+export PATH=/opt/homebrew/opt/python@3.10/bin:$PATH
 export PATH=$HOME/bin:$PATH
 export PATH=/usr/local/opt/python/libexec/bin:$PATH
 export PATH=node_modules/.bin:$PATH
 export PATH=/usr/local/opt/ruby/bin:$PATH
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:$HOME/go/bin
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+export PATH="$PATH:$HOME/.gem/bin"
 
 # auto-complete
 if [ -f ~/.myconfig/git-completion.bash ]; then
@@ -28,6 +34,14 @@ __git_complete g __git_main
 __git_complete gco _git_checkout
 __git_complete gbd _git_branch
 __git_complete gr _git_rebase
+
+# NVM
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+# TODO
+nvm use 14
 
 #
 # prompt
@@ -75,6 +89,9 @@ alias uuuup='cd ../../../..'
 alias wh='type'
 alias ww='echo "`whoami`@`hostname`"'
 
+# go
+alias gde='godotenv'
+
 # python
 alias ipy='ipython'
 alias pfr='pip freeze > requirements.txt'
@@ -108,6 +125,7 @@ alias nnn='NODE_ENV=development node -r dotenv-flow/config'
 alias ns='npm start'
 alias nsw='npm run start:watch'
 alias nt='npm test'
+alias nv='npm run coverage'
 alias ntw='npm run test:watch'
 alias nll='npm ls --depth=0 --link=true'
 
@@ -118,6 +136,17 @@ alias txk='tmux kill-server'
 alias txl='tmux ls'
 alias txn='tmux new'
 alias txr='tmux kill-server; tmux new -s main'
+
+# hardhat
+alias hh='hardhat'
+alias hhc='hardhat compile'
+alias hhe='hardhat --network mainnet'
+alias hhp='hardhat --network polygon'
+alias hhpn='hardhat --network polygon console'
+alias hhm='hardhat --network mumbai'
+alias hhn='hardhat console'
+alias hhmn='hardhat --network mainnet console'
+alias hhr='hardhat run'
 
 # truffle
 alias tt='truffle'
@@ -152,7 +181,10 @@ alias g='git'
 alias ga='git add'
   # branch
 alias gb='git branch'
+alias gbb='git branch --sort=committerdate'
 alias gbd='git branch -D'
+alias gbl='git for-each-ref --sort=authordate --format "%(authordate:iso) %(align:left,25)%(refname:short)%(end) %(subject)" refs/heads'
+# gbl2 function below
   # commit
 alias gc='git commit -v'
 alias gca='git commit -v -a'
@@ -165,26 +197,26 @@ alias gcaan='git commit -v -a --amend --no-edit'
   # checkout
 alias gco='git checkout'
 alias gcob='git checkout -b'
-alias gcom='git checkout master'
+alias gcom='git checkout main'
   # cherry
 alias gch='git cherry'
-alias gchm='git cherry master'
+alias gchm='git cherry main'
   # cherrypick
 alias gcp='git cherry-pick'
 alias gcpa='git cherry-pick --abort'
 alias gcpc='git cherry-pick --continue'
   # diff
-alias gd='git diff --minimal -w HEAD | cdiff -s -w 100'
-alias gd2='git diff --minimal -w HEAD | cdiff -s -w 100'
-alias gdc='git diff --color=always --cached | less -R'
-alias gdm='git diff master'
+alias gd='git diff'
+alias gdc='git diff --cached'
+alias gdm='git diff main'
   # fetch
 alias gfa='git fetch --all'
-alias gfm='git fetch origin master'
+alias gfm='git fetch origin main'
   # stash
-alias gh='git stash'
-alias ghd='git stash drop'
-alias ghp='git stash pop'
+alias gst='git stash'
+alias gstd='git stash drop'
+alias gstp='git stash pop'
+alias gstw='git stash show -p stash@{0}'
   # pull
 alias gl='git pull'
 alias glr='git pull --rebase'
@@ -193,6 +225,8 @@ alias gla='git log --pretty=oneline HEAD^..HEAD | cut -c 1-7'
 alias glo='git log --oneline --format="%h %<(50,trunc)%s" | less -R'
   # merge
 alias gma='git merge --abort'
+alias gmc='git merge --continue'
+alias gmm='git merge main'
   # clone
 alias gn='git clone'
   # push
@@ -204,20 +238,28 @@ alias gr='git rebase'
 alias gra='git rebase --abort'
 alias grc='git rebase --continue'
 alias gri='git rebase -i'
-alias grim='git rebase -i master'
-alias grom='git rebase origin/master'
-alias grm='git rebase master'
-alias grom='git rebase origin/master'
-alias gru='git fetch upstream; git rebase upstream/master'
+alias gri2='git rebase -i HEAD~2'
+alias gri3='git rebase -i HEAD~3'
+alias gri4='git rebase -i HEAD~4'
+alias gri5='git rebase -i HEAD~5'
+alias grim='git rebase -i main'
+alias grom='git rebase origin/main'
+alias grm='git rebase main'
+alias grom='git rebase origin/main'
+alias gru='git fetch upstream; git rebase upstream/main'
   # status
 alias gs='git status'
   # show
+alias gw='git show'
 alias gsps='git show --pretty=short --show-signature'
   # reset
 alias gu='git reset HEAD'
 alias guh='git reset HEAD --hard'
 alias guu='git reset HEAD^'
 alias guuh='git reset HEAD^ --hard'
+
+# gh aliases
+alias gcopr='gh pr checkout'
 
 #
 # Functions
@@ -240,6 +282,11 @@ function nnev {
   COMAND="$@"
   nnn -e "$COMMAND"
 }
+function gbl2 {
+  TEMP=$(git for-each-ref --shell --format "git --no-pager log -1 --date=iso --format='%%ad '%(align:left,25)%(refname:short)%(end)' %%h %%s' \$(git merge-base %(refname:short) main);" refs/heads)
+  OUT=$(eval "$TEMP" | sort)
+  echo "$OUT"
+}
 
 # create and push new typescript project
 function new_ts () {
@@ -251,6 +298,6 @@ function new_ts () {
   git add .
   git commit -m "Add ts-template"
   git remote add origin "git@github.com:Kenadia/$1.git"
-  git push -u origin master
+  git push -u origin main
 }
 

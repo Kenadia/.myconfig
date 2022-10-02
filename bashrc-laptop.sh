@@ -7,20 +7,30 @@ echo "Loading laptop config."
 # Skip if not running interactively.
 [ -z "$PS1" ] && return
 
+# profiles
+function xswitch() {
+  CONFIG=~/.gitconfigs/.gitconfig-$1
+  KEY=~/.ssh/$1
+  cp "$CONFIG" ~/.gitconfig
+  ssh-add -D
+  ssh-add $KEY
+  echo $1 > ~/.xwho
+  xwho
+}
+function xwho() {
+  WHO=$(cat ~/.xwho)
+  echo "[$WHO]"
+  git config --global -l
+  ssh-add -L
+}
+
 # config
 alias coo='vi ~/.myconfig/bashrc-laptop.sh'
 
-# overrides
-alias gd='git diff --color=always | less -R'
+# local directories
+alias cdc='cd ~/code'
 
-# desk
-alias desk='ssh -t desk "tmux new -s main -A"'
-alias auth='ssh -O exit desk; auth-refresh'
-alias remo='sudo systemsetup -setremotelogin on'
-alias authall='cd; auth; remount'
-alias aa='authall'
-alias a='authall'
+# erlang
+export KERL_CONFIGURE_OPTIONS="--disable-debug --without-javac"
+export ERL_AFLAGS="-kernel shell_history enabled"
 
-# laputa
-alias laputa='sudo sshfs -o allow_other,defer_permissions,volname=laputa,IdentityFile=/users/kschiller/.ssh/id_rsa files@schiller.io:/home/files /laputa; cd /laputa'
-alias ulaputa='sudo umount -f /laputa'
