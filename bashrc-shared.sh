@@ -35,14 +35,6 @@ __git_complete gco _git_checkout
 __git_complete gbd _git_branch
 __git_complete gr _git_rebase
 
-# NVM
-export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
-# TODO
-nvm use 14
-
 #
 # prompt
 #
