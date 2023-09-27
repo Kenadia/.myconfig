@@ -3,7 +3,7 @@
 ## Installation
 
 ```
-MYCONFIG_ENV=cloud  # E.g. one of 'cloud', 'google', 'laptop'.
+MYCONFIG_ENV=cloud  # E.g. one of 'cloud', 'laptop', ...
 cd ~
 git clone https://github.com/Kenadia/.myconfig.git
 echo "export MYCONFIG_ENV=$MYCONFIG_ENV" >> .bashrc
