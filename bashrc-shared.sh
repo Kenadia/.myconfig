@@ -114,9 +114,14 @@ alias nnn='NODE_ENV=development node -r dotenv-flow/config'
 alias ns='npm start'
 alias nsw='npm run start:watch'
 alias nt='npm test'
+alias nu='npm uninstall'
 alias nv='npm run coverage'
 alias ntw='npm run test:watch'
 alias nll='npm ls --depth=0 --link=true'
+
+# yarn
+alias y='yarn'
+alias yd='yarn dev'
 
 # tmux
 alias tx='tmux'
@@ -126,16 +131,22 @@ alias txl='tmux ls'
 alias txn='tmux new'
 alias txr='tmux kill-server; tmux new -s main'
 
+# forge
+alias fb='forge build'
+alias ft='forge test'
+
 # hardhat
 alias hh='hardhat'
 alias hhc='hardhat compile'
-alias hhe='hardhat --network mainnet'
+alias hhn='hardhat console'
+alias hhr='hardhat run'
+alias hht='hardhat test'
+alias hhb='hardhat --network mumbai'
+alias hhbn='hardhat --network mumbai console'
+alias hhm='hardhat --network mainnet'
+alias hhmn='hardhat --network mainnet console'
 alias hhp='hardhat --network polygon'
 alias hhpn='hardhat --network polygon console'
-alias hhm='hardhat --network mumbai'
-alias hhn='hardhat console'
-alias hhmn='hardhat --network mainnet console'
-alias hhr='hardhat run'
 
 # truffle
 alias tt='truffle'
@@ -249,6 +260,8 @@ alias guuh='git reset HEAD^ --hard'
 
 # gh aliases
 alias gcopr='gh pr checkout'
+alias gpc='gh pr create'
+alias gpm='gh pr merge'
 
 #
 # Functions
@@ -290,3 +303,7 @@ function new_ts () {
   git push -u origin main
 }
 
+# update all npm packages
+function ncu {
+  npx -p npm-check-updates ncu -u
+}
