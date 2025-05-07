@@ -104,3 +104,10 @@ inoremap <C-e> <C-o>$
 
 " align equal signs
 " noremap <space>= :Tabularize /^[^=]*\zs=<cr>
+
+" Toggle comments using `gcc` in Normal Mode and `gc` in Visual Mode
+nnoremap gc :s/^/# /<CR>:syntax sync fromstart<CR>
+vnoremap gc :s/^/# /<CR>:syntax sync fromstart<CR>
+
+" Press F2 to toggle 'paste' on/off
+set pastetoggle=<F2>
