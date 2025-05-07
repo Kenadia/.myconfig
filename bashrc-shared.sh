@@ -354,6 +354,15 @@ function ncu {
   npx -p npm-check-updates ncu -u
 }
 
+# tsup with --watch
+tsuw() {
+  if ! command -v tsup >/dev/null 2>&1; then
+    yarn tsup "$@" --watch
+  else
+    tsup "$@" --watch
+  fi
+}
+
 # Background tasks
 
 ########################################################################
