@@ -38,6 +38,26 @@ __git_complete gr _git_rebase
 #
 # prompt
 #
+function _get_net_status() {
+  if [ ! -f "$NET_STATUS_FILE" ]; then
+    # Unknown if file doesn't exist yet
+    echo " ?"
+    return
+  fi
+
+  case "$(cat "$NET_STATUS_FILE")" in
+    ONLINE)
+      echo ""        # Return empty string if online
+      ;;
+    OFFLINE)
+      echo "⚠ "      # Return a prefixed space + "x" (or another symbol)
+      ;;
+    *)
+      echo "? "
+      ;;
+  esac
+}
+
 source ~/.myconfig/git-prompt.sh
 
 # Include hostname in prompt if we're on a remote connection.
@@ -48,15 +68,41 @@ if [[ -n $SSH_CLIENT ]]; then
   esac
   hostname=`hostname`
   hostname="${hostname%%\.*}"
-  PS1='\[\e['$host_color'm\]'$hostname' '
+  PS1='\n\[\e['$host_color'm\]'$hostname' '
 else
-  PS1=''
+  PS1='\n'
 fi
 
 # Add indicator if the last command failed.
 status_dot='if [ $? = 0 ]; then printf ""; else printf "\[\e[31m\]* "; fi'
 
-PS1+="\`$status_dot\`\[\e[33m\]${debian_chroot:+($debian_chroot)}\W\[\e[31m\]\`__git_ps1\` \[\e[m\]$ "
+# internet status indicator
+inet_status='$(_get_net_status)'
+
+# old PS1 (pre 2025)
+# PS1+="\`$status_dot\`\[\e[31m\]\$inet_status\[\e[32m\]${debian_chroot:+($debian_chroot)}\W\[\e[33m\]\`__git_ps1\` \[\e[m\]$ "
+
+# Evaluate exit code of the last command:
+# If it's nonzero, show a red star; if zero, show nothing.
+PS1="\$( if [ \$? -eq 0 ]; then printf \"\"; else printf \"\[\e[31m\]* \"; fi )"
+
+# Insert your internet status indicator (in red color).
+PS1+="\[\e[31m\]\$(_get_net_status)"
+
+# Add your Debian chroot (if any) and the current working directory.
+PS1+="\[\e[32m\]${debian_chroot:+($debian_chroot)}\W"
+
+# Add the Git branch info, if you're using __git_ps1.
+PS1+="\[\e[33m\]\`__git_ps1\` "
+
+# Reset the color formatting and finalize with a dollar sign (bash prompt).
+PS1+="\[\e[m\]\$ "
+
+# Explanation:
+#  - \$( ... ) is command-substitution at prompt-render time, not at assignment time.
+#  - \$? inside that sub-command should still refer to the exit code of the last command.
+#  - \$(_get_net_status) likewise calls your function each time the prompt is drawn.
+
 #
 # end prompt
 #
@@ -307,3 +353,40 @@ function new_ts () {
 function ncu {
   npx -p npm-check-updates ncu -u
 }
+
+# Background tasks
+
+########################################################################
+# 1. Configurable interval + file path
+########################################################################
+
+# How often (in seconds) to check connectivity
+CHECK_INTERVAL=10
+
+# Where to store the latest status (unique for your user)
+NET_STATUS_FILE="/tmp/inet_status_$USER"
+
+########################################################################
+# 2. The background function that runs continuously
+########################################################################
+
+function internet_check_background() {
+  while true; do
+    # Simple ping check to 1.1.1.1
+    if ping -c 1 -W 1 1.1.1.1 &>/dev/null; then
+      echo "ONLINE" > "$NET_STATUS_FILE"
+    else
+      echo "OFFLINE" > "$NET_STATUS_FILE"
+    fi
+    sleep "$CHECK_INTERVAL"
+  done
+}
+
+########################################################################
+# 3. Start that background checker if not already running
+########################################################################
+
+# pgrep -f will look for a process name matching "internet_check_background"
+if ! pgrep -f "internet_check_background" &>/dev/null; then
+  internet_check_background &
+fi
