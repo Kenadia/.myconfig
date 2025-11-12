@@ -209,26 +209,6 @@ alias hhmn='hardhat --network mainnet console'
 alias hhp='hardhat --network polygon'
 alias hhpn='hardhat --network polygon console'
 
-# truffle
-alias tt='truffle'
-alias trc='truffle compile'
-alias trd='truffle develop'
-alias trm='truffle migrate'
-alias trmr='truffle migrate --reset'
-alias trn='truffle console'
-alias trnm='RPC_NODE_URI=$ETHEREUM_HTTP_NODE_MAINNET truffle console --network mainnet'
-alias trnn='truffle console --network $NETWORK'
-alias trt='truffle test'
-
-# truffle testing
-alias trct='trc --all --network test'
-alias trmrt='trmr --network test'
-alias trnt='trn --network test'
-alias trclean='rm -rf build/; truffle compile --all --network test; truffle migrate --reset --network test'
-alias trcleantest='rm -rf build/; truffle compile --all --network=test; truffle migrate --reset --network=test; truffle test'
-alias nyctrt='nyc --exclude=[] --reporter=lcov truffle test'
-alias nyct='nyc --exclude=[] --reporter=lcov'
-
 # docker
 alias dcu='docker-compose up'
 alias dls='docker container ls'
