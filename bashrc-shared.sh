@@ -6,6 +6,24 @@ echo "Loading shared config."
 export PGCONNECT_TIMEOUT=3
 export GEM_HOME="$HOME/.gem"
 
+# ai
+# 5 is particularly slow, not clear how it's smarter than o3?
+# prefer o3 to o4 mini?
+# 41 and 5-chat have color responses
+# 5-chat seems fine?
+alias cl='claude'
+alias ca='cursor-agent'
+function oai {
+  echo "Model: $1"
+  aichat -m $1
+}
+alias ai3='oai openai:o3'
+alias ai4='oai openai:o4-mini-high'
+alias ai5='oai openai:gpt-5'
+alias chat4o='oai openai:openai:gpt-4o'
+alias chat4='oai openai:gpt-4.1'
+alias chat5='oai openai:gpt-5-chat-latest'
+
 # misc
 alias beep='osascript -e beep; osascript -e beep'
 alias tscw='tsc --watch'
