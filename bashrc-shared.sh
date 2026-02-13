@@ -1,8 +1,5 @@
 echo "Loading shared config."
 
-# Skip if not running interactively.
-[ -z "$PS1" ] && return
-
 export PGCONNECT_TIMEOUT=3
 export GEM_HOME="$HOME/.gem"
 
@@ -41,6 +38,7 @@ export PATH=$PATH:$HOME/go/bin
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 export PATH="$PATH:$HOME/.gem/bin"
+export PATH="$PATH:$HOME/.asdf/shims"
 
 # auto-complete
 if [ -f ~/.myconfig/git-completion.bash ]; then
@@ -127,6 +125,7 @@ PS1+="\[\e[m\]\$ "
 
 # basic aliases
 alias b='cd -'
+alias bi='brew install'
 alias c='clear'
 alias co='vi ~/.myconfig/bashrc-shared.sh'
 alias cr='. ~/.bash_profile'
@@ -136,8 +135,6 @@ alias ll='ls -alF'
 alias lll='ls -alF | less'
 alias o.='open .'
 alias o='open'
-alias s.='subl .'
-alias s='subl'
 alias up='cd ..'
 alias uup='cd ../..'
 alias uuup='cd ../../..'
@@ -162,6 +159,7 @@ alias vm='python -m venv .venv'
 # node
 alias np='pnpm'
 alias n='node'
+alias n-='node -e "require(\"repl\").start({ preview: false })"'
 alias n.='node .'
 alias nb='pnpm run build'
 alias ni='pnpm install'
@@ -197,12 +195,14 @@ alias yae='yarn-add-exact'
 alias yade='yarn-add-exact -D'
 alias yb='yarn build'
 alias yd='yarn dev'
+alias yf='yarn format'
 alias yl='yarn lint'
+alias yr='yarn remove'
 alias yt='yarn test'
 
 # tmux
 alias tx='tmux'
-alias txa='tmux new -s main -A'
+alias txa='tmux new-session -A -s main'
 alias txk='tmux kill-server'
 alias txl='tmux ls'
 alias txn='tmux new'
@@ -238,30 +238,38 @@ function drm() {
 alias g='git'
   # add
 alias ga='git add'
+alias gap='git add -p'
 alias g.='git add .'
   # branch
 alias gb='git checkout -'
 alias gbb='git branch'
-alias gbs='git branch --sort=committerdate'
+alias gbs='git branch --sort=committerdate | tail'
 alias gbd='git branch -D'
+alias gbdd='git branch -D "$(git rev-parse --abbrev-ref @{-1})"'
 alias gbl='git for-each-ref --sort=authordate --format "%(authordate:iso) %(align:left,25)%(refname:short)%(end) %(subject)" refs/heads'
 # gbl2 function below
   # commit
 alias gc='git commit -v'
 alias gca='git commit -v -a'
 alias gcm='git commit -v -m'
+alias gcmacr='git commit -v -m "Address CR"'
 alias gcmw='git commit -v -m wip'
 alias gcam='git commit -v -a -m'
+alias gcamacr='git commit -v -a -m "Address CR"'
 alias gcamw='git commit -v -a -m wip'
-alias gcan='git commit -v --amend --no-edit'
-alias gcaa='git commit -v -a --amend'
-alias gcaan='git commit -v -a --amend --no-edit'
+alias gcan='git commit --amend --no-edit'
+alias gcaa='git commit -a --amend'
+alias gcaan='git commit -a --amend --no-edit'
   # checkout
 alias gco='git checkout'
 alias gco-='git checkout --'
 alias gco.='git checkout .'
 alias gcob='git checkout -b'
+gcobb() {
+  git checkout -b "user/$(git log -1 --pretty=%s | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g; s/^-|-$//g')"
+}
 alias gcom='git checkout main'
+alias gcoml='git checkout main && git pull'
   # cherry
 alias gch='git cherry'
 alias gchm='git cherry main'
@@ -278,9 +286,11 @@ alias gfa='git fetch --all'
 alias gfm='git fetch origin main'
   # stash
 alias gst='git stash'
+alias gst-='git stash --'
 alias gstd='git stash drop'
 alias gstp='git stash pop'
 alias gstw='git stash show'
+alias gstwd='git log -g -1 --date=local --pretty=format:'%cd' refs/stash'
 alias gstwp='git stash show -p stash@{0}'
   # pull
 alias gl='git pull'
@@ -291,6 +301,11 @@ alias glow='git log --oneline --format="%h %<(50,trunc)%s" | less -R'
 function glo () {
   N=$1
   glow | head -n ${N:=5}
+}
+function glom () {
+  git log main..HEAD \
+    --oneline \
+    --format='%h %<(50,trunc)%s'
 }
 alias gll='git log'
   # merge
@@ -320,6 +335,8 @@ alias grom='git rebase origin/main'
 alias gru='git fetch upstream; git rebase upstream/main'
   # status
 alias gs='git status'
+  # revert
+alias gv='git revert'
   # show
 alias gw='git show'
 alias gsps='git show --pretty=short --show-signature'
@@ -329,14 +346,47 @@ alias guh='git reset HEAD --hard'
 alias guu='git reset HEAD^'
 alias guuh='git reset HEAD^ --hard'
 
+# Create git worktree and checkout new branch
+alias wtl='git worktree list'
+wt() {
+  git worktree add -b $1 ../worktrees/$1 main
+  cd ../worktrees/$1
+}
+rmwt() {
+  local name="$1"
+  local path
+
+  path="$(
+    git worktree list --porcelain | awk -v n="$name" '
+      $1=="worktree"{w=$2}
+      $1=="branch"{
+        b=$2; sub(/^refs\/heads\//,"",b)
+        if (b==n) { print w; exit }
+      }
+    '
+  )"
+
+  if [ -z "$path" ]; then
+    echo "No worktree found for branch '$name'. Try: git worktree list" >&2
+    return 1
+  fi
+
+  git worktree remove --force "$path"
+  git branch -D "$name" 2>/dev/null || true
+}
+
 # gh aliases
 alias gcopr='gh pr checkout'
 alias gpc='gh pr create'
 alias gpm='gh pr merge'
+alias gpma='gh pr merge --admin'
 
 #
 # Functions
 #
+
+# git
+git() { TZ=UTC command git "$@"; }
 
 # node-eval-log
 function nel {
@@ -388,6 +438,50 @@ tsuw() {
   fi
 }
 
+# Wrap an amend command such that it does not update committer date
+# git_nodate commit --amend --no-edit
+# git_nodate commit --amend -m "New message"
+git_nodate() {
+  # Preserve HEAD's author+committer dates for commands that create a new commit
+  # (most notably: `git commit --amend`, and rebases/cherry-picks when they call commit)
+  local a c
+  a="$(git show -s --format=%aI HEAD 2>/dev/null)" || {
+    echo "git_nodate: no HEAD commit found" >&2
+    return 2
+  }
+  c="$(git show -s --format=%cI HEAD 2>/dev/null)" || return 2
+
+  # Only set these env vars for the single git invocation
+  GIT_AUTHOR_DATE="$a" GIT_COMMITTER_DATE="$c" git "$@"
+}
+
+# Update date of most recent commit
+git_redate_latest() {
+  local d="$1"
+  if [[ -z "$d" ]]; then
+    echo "usage: git_redate_latest \"<date string>\"" >&2
+    return 2
+  fi
+
+  # Sanity checks
+  git rev-parse --is-inside-work-tree >/dev/null 2>&1 || {
+    echo "error: not in a git repo" >&2
+    return 2
+  }
+  git rev-parse HEAD >/dev/null 2>&1 || {
+    echo "error: no commits yet" >&2
+    return 2
+  }
+
+  # Ensure git can parse the date (git uses its own date parser)
+  GIT_TEST_DATE_NOW="$d" git show -s --format=%cd --date=raw HEAD >/dev/null 2>&1 || {
+    echo "error: git couldn't parse date: $d" >&2
+    return 2
+  }
+
+  GIT_COMMITTER_DATE="$d" git commit --amend --no-edit --date "$d"
+}
+
 # Background tasks
 
 ########################################################################
@@ -420,7 +514,28 @@ function internet_check_background() {
 # 3. Start that background checker if not already running
 ########################################################################
 
-# pgrep -f will look for a process name matching "internet_check_background"
-if ! pgrep -f "internet_check_background" &>/dev/null; then
-  internet_check_background &
+# Only do this in a real terminal session
+if [[ $- == *i* ]] && [[ -t 0 ]] && [[ -t 1 ]]; then
+  CHECK_INTERVAL=10
+  NET_STATUS_FILE="/tmp/inet_status_$USER"
+  NET_STATUS_PIDFILE="/tmp/inet_status_${USER}.pid"
+
+  internet_check_background() {
+    while true; do
+      if ping -c 1 -W 1 1.1.1.1 &>/dev/null; then
+        echo "ONLINE" > "$NET_STATUS_FILE"
+      else
+        echo "OFFLINE" > "$NET_STATUS_FILE"
+      fi
+      sleep "$CHECK_INTERVAL"
+    done
+  }
+
+  if [[ -r "$NET_STATUS_PIDFILE" ]] && kill -0 "$(cat "$NET_STATUS_PIDFILE")" 2>/dev/null; then
+    : # already running
+  else
+    internet_check_background >/dev/null 2>&1 &
+    echo $! > "$NET_STATUS_PIDFILE"
+    disown
+  fi
 fi
