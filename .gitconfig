@@ -1,0 +1,13 @@
+[core]
+  excludesfile = ~/.myconfig/.gitignore
+
+[commit]
+  gpgsign = true
+
+[gpg]
+  format = ssh
+
+# Example conditional include by directory
+#
+# [includeIf "gitdir:~/code/kenadia/"]
+#  path = ~/code/kenadia/.gitconfig
