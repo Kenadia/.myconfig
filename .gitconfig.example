@@ -1,0 +1,4 @@
+[user]
+  name = Kenadia
+  email = Kenadia@users.noreply.github.com
+  signingkey = ~/.ssh/kenadia.pub
