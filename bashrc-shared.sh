@@ -8,7 +8,7 @@ export GEM_HOME="$HOME/.gem"
 # prefer o3 to o4 mini?
 # 41 and 5-chat have color responses
 # 5-chat seems fine?
-alias cl='claude'
+alias cl='claude --dangerously-skip-permissions'
 alias ca='cursor-agent'
 function oai {
   echo "Model: $1"
@@ -39,6 +39,7 @@ export PATH=$PATH:$HOME/go/bin
 export PATH="$PATH:$HOME/.rvm/bin"
 export PATH="$PATH:$HOME/.gem/bin"
 export PATH="$PATH:$HOME/.asdf/shims"
+export PATH="$PATH:$HOME/.local/bin"
 
 # auto-complete
 if [ -f ~/.myconfig/git-completion.bash ]; then
@@ -126,6 +127,7 @@ PS1+="\[\e[m\]\$ "
 # basic aliases
 alias b='cd -'
 alias bi='brew install'
+alias bu='brew upgrade'
 alias c='clear'
 alias co='vi ~/.myconfig/bashrc-shared.sh'
 alias cr='. ~/.bash_profile'
@@ -182,6 +184,14 @@ alias nv='pnpm run coverage'
 alias ntw='pnpm run test:watch'
 alias nll='pnpm ls --depth=0 --link=true'
 
+# make
+alias m='make'
+alias mb='make build'
+alias md='make dev'
+alias mf='make fmt'
+alias mi='make infra'
+alias mt='make test'
+
 # turbo
 alias tu='turbo'
 alias tub='turbo build'
@@ -233,6 +243,9 @@ alias dls='docker container ls'
 function drm() {
   docker stop $1 && docker rm $1
 }
+
+# aws
+alias awl='aws login'
 
 # git aliases
 alias g='git'
@@ -328,6 +341,11 @@ alias gri2='git rebase -i HEAD~2'
 alias gri3='git rebase -i HEAD~3'
 alias gri4='git rebase -i HEAD~4'
 alias gri5='git rebase -i HEAD~5'
+alias gri6='git rebase -i HEAD~6'
+alias gri7='git rebase -i HEAD~7'
+alias gri8='git rebase -i HEAD~8'
+alias gri9='git rebase -i HEAD~9'
+alias gri10='git rebase -i HEAD~10'
 alias grim='git rebase -i main'
 alias grom='git rebase origin/main'
 alias grm='git rebase main'
@@ -384,6 +402,8 @@ alias gpma='gh pr merge --admin'
 #
 # Functions
 #
+
+withenv() { env $(grep -v '^#' ~/.env | xargs) "$@"; }
 
 # git
 git() { TZ=UTC command git "$@"; }
