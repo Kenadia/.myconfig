@@ -13,6 +13,14 @@ echo "source-file ~/.myconfig/tmux.conf" >> .tmux.conf
 . .bashrc
 ```
 
+## More setup: .gitconfig
+
+```
+cd ~
+echo "[include]" >> .gitconfig
+echo "  path = ~/.myconfig/.gitconfig" >> .gitconfig
+```
+
 ## Vim plugin installation
 
 ```
