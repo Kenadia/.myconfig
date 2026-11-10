@@ -9,6 +9,9 @@ export GEM_HOME="$HOME/.gem"
 # 41 and 5-chat have color responses
 # 5-chat seems fine?
 alias cl='claude --dangerously-skip-permissions'
+alias clr='cl -r'
+alias cx='codex -m gpt-6-astra --yolo'
+alias cxr='cx resume'
 alias ca='cursor-agent'
 function oai {
   echo "Model: $1"
